@@ -11,10 +11,12 @@ import store from './store/index'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-const app = new Vue({
+const v_app = new Vue({
   el: '#app',
   router,
   store,
   components: { App },
   template: '<App/>'
 })
+
+window.v_app = v_app; //temp

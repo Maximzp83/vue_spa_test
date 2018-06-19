@@ -2,7 +2,7 @@
 
 
 <template>
-  <div id="app" class="mainWrapper">
+  <div id="vapp" class="mainWrapper">
     <Header></Header>
     <main class="page">
       <div class="container">

@@ -3,7 +3,6 @@
     <Aside></Aside>
     <div class="page-content">
       <h1 class="title">{{ title }}</h1>
-      <hr>
     </div>
   </div>
 </template>
@@ -15,10 +14,10 @@ export default {
   components: {
     Aside,
   },
-  name: 'IndexPage',
+  name: 'PostsPage',
   data () {
     return {
-      title: 'indexPage content'
+      title: 'Post List'
     }
   }
 }

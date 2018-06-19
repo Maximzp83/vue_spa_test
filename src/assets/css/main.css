@@ -3,9 +3,41 @@ ul {
   padding: 0;
 }
 
+ul.info {
+  margin-left: 15px;
+  padding-left: 10px;
+}
+
 html, body {
   height: 100%;
   margin: 0;
+}
+
+body {
+  font-size: 17px;
+}
+
+li + li {
+  margin-top: 8px;
+}
+
+hr {
+  border-style: solid;
+}
+
+.title {
+  text-align: center;
+}
+
+.preloader {
+  font-size: 25px;
+  text-align: center;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: center;
 }
 
 .mainWrapper {
@@ -32,12 +64,19 @@ html, body {
   min-height: 100px;
 }
 
-.main-header {
- 
+.main-header a {
+  color: #fff;
+}
+
+a:hover {
+  text-decoration: none;
 }
 
 .main-header .nav-links li {
   display: inline-block;
+}
+.main-header .nav-links li + li {
+  margin-left: 5px;
 }
 
 
@@ -57,12 +96,19 @@ html, body {
   display: -ms-flex;
   display: -o-flex;
   display: flex;
+  -ms-align-items: flex-start;
+  align-items: flex-start;
+  padding: 25px 0;
 }
 .aside {
-  flex-basis: 25%;
+  flex-basis: 20%;
+  background-color: #dce2d4;
+  padding: 15px;
 }
 
 .page-content {
-  flex-basis: 72%;
+  flex-basis: 77%;
   margin-left: auto;
+  padding: 0 15px;
 }
+

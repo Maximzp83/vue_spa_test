@@ -1,29 +1,32 @@
-import dataBase from '../../api/dataBase'
+import authorsDataBase from '../../api/authorsDataBase'
 
 // initial state
 const state = {
-  posts: [],
-  count: 0
+  authors: [],
 }
 
 // getters
 const getters = {
-  postsCount: state => {
-    return state.posts.length;
+  authorsCount: state => {
+    return state.authors.length;
+  },
+  getAuthorById: state => id => {
+    let intId = +id;
+    return state.authors.find(author => author.id === intId);
   }
 }
 
 // actions
 const actions = {
   // getPosts (context, {amount}) {
-  getPosts ({ commit}) {
+  getAuthors ({ commit}) {
     // console.log('number: ', amount)
     // context.commit('increment', amount)
     
     // let posts = dataBase.getPosts();
     // console.log('posts: ', posts)
-    dataBase.getPosts(posts => {
-      commit('setPosts', posts)
+    authorsDataBase.getAuthors(authors => {
+      commit('setAuthors', authors)
     })
     // context.commit('setPosts', posts)
   },
@@ -32,11 +35,9 @@ const actions = {
 
 // mutations
 const mutations = {
-  increment (state, number) {
-    state.count+=number
-  },
-  setPosts (state, posts) {
-    state.posts = posts
+  
+  setAuthors (state, authors) {
+    state.authors = authors
   }
 }
 

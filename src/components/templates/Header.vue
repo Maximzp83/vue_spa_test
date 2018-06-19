@@ -2,10 +2,10 @@
   <header class="main-header">
     <h3>{{ title }}</h3>
     <nav>
-      <ul class="nav-links">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
+      <ul class="nav-links">Navigation: 
+        <li><router-link to="/">Home</router-link></li>
+        <li><router-link to="/authors">Authors</router-link></li>
+        <li><router-link to="/posts">Posts</router-link></li>
         <li>4</li>
       </ul>
     </nav>
