@@ -27,6 +27,12 @@ hr {
 
 .title {
   text-align: center;
+  text-transform: capitalize;
+}
+.sub-title {
+  /*font-size: 0.9em;*/
+  /*margin-top: 5px;*/
+  text-align: center;
 }
 
 .preloader {
@@ -71,12 +77,16 @@ hr {
 a:hover {
   text-decoration: none;
 }
+.main-header .router-link-exact-active {
+  color: #73e77c;
+}
 
 .main-header .nav-links li {
   display: inline-block;
 }
 .main-header .nav-links li + li {
   margin-left: 5px;
+  margin-top: 0;
 }
 
 
@@ -103,12 +113,24 @@ a:hover {
 .aside {
   flex-basis: 20%;
   background-color: #dce2d4;
-  padding: 15px;
+  /*padding: 0 15px;*/
+}
+.aside .title {
+  padding: 0 15px;
+  margin: 0;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: #eee;
+  line-height: 40px;
 }
 
 .page-content {
   flex-basis: 77%;
   margin-left: auto;
+  padding: 0 15px;
+}
+
+.content-container {
   padding: 0 15px;
 }
 

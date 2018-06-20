@@ -15,7 +15,7 @@
 
 <script>
 import Aside from './templates/Aside'
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -29,14 +29,9 @@ export default {
   },
   computed: {
     ...mapState({
-      // posts: state => state.posts.posts,
       authors: state => state.authors.authors,
     }),
-    ...mapGetters({
-      // postsCount: 'posts/postsCount',
-      // authorsCount: 'authors/authorsCount'
-
-    }),
+    
   },
 }
 </script>

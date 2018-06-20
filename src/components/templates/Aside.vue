@@ -1,10 +1,12 @@
 <template>
   <aside class="aside">
-    <h3>{{ title }}</h3>
+    <h3 class="title">{{ title }}</h3>
     <!-- <p>posts in database: {{ posts.length }}</p> -->
-    <p>authors: {{ authorsCount }}</p>
-
-    <p>posts: {{ postsCount }}</p>
+    <div class="content-container">
+      <p>authors: {{ authorsCount }}</p>
+      
+      <p>posts: {{ postsCount }}</p>
+    </div>
     <!-- <ul>
       <li v-for="post in posts">
         {{ post.title }}

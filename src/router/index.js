@@ -4,6 +4,7 @@ import IndexPage from '@/components/IndexPage'
 import AuthorsPage from '@/components/AuthorsPage'
 import Author from '@/components/Author'
 import PostsPage from '@/components/PostsPage'
+import Post from '@/components/Post'
 
 
 Vue.use(Router)
@@ -27,9 +28,22 @@ export default new Router({
       props: true,
     },
     {
+      path: '/authors/:authorId/posts',
+      name: 'PostsPage',
+      component: PostsPage,
+      props: true,
+    },
+    {
       path: '/posts',
       name: 'PostsPage',
-      component: PostsPage
+      component: PostsPage,
+      props: true,
+    },
+    {
+      path: '/authors/:authorId/posts/:id',
+      name: 'Post',
+      component: Post,
+      props: true,
     },
 
   ]

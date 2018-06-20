@@ -3,7 +3,16 @@
     <Aside></Aside>
     <div class="page-content">
       <!-- <h1 class="title"><i>{{ authors[id].name }}</i> Info</h1> -->
-      <h1 class="title" v-if="author"><i>{{ author.name }}</i> Info</h1>
+      <div v-if="author">
+        <h1 class="title"><i>{{ author.name }}</i> Info</h1>
+        <div v-if="posts.length">Has: {{ posts.length }}
+          <!-- <router-link
+            v-bind:to="'/authors/' + author.id + '/posts'"> Posts</router-link> -->
+            <router-link
+              :to="{ name: 'PostsPage', 
+                    params: {authorId: author.id} }"> Posts</router-link>
+        </div>
+      </div>
       <h1 class="title" v-else>Loading Info</h1>
       <hr>
       <p v-if="author">
@@ -38,7 +47,7 @@ export default {
   props: ['id'],
   data () {
     return {
-      title: 'Author Info'
+      title: 'Author Info',
     }
   },
   computed: {
@@ -51,17 +60,20 @@ export default {
       // authorsCount: 'authors/authorsCount'
       // Author: 'authors/getAuthorById', this.$props.id
     }),
-
     author() {
-      console.log(this.$store.getters['authors/getAuthorById'](this.id))
-      return this.$store.getters['authors/getAuthorById'](this.id)
-    }
+      // this.localAuthor.hasPosts
+      return  this.$store.getters['authors/getAuthorById'](this.id);
+    },
+    posts() {
+      return this.$store.getters['posts/getPostsByAuthor'](this.id)
+    },    
   },
 
-  // created() {
-  //   if (!this.authToken) {
-  //     this.$router.replace('/login');
-  //   }
+  // updated() {
+  //   // console.log('updated')
+  //   this.localAuthor.posts = this.$store.getters['posts/getPostsByAuthor'](this.id);
+  //   console.log(this.localAuthor.posts)
+    
   // },
   
 }
