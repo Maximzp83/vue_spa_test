@@ -3,6 +3,7 @@ import authorsDataBase from '../../api/authorsDataBase'
 // initial state
 const state = {
   authors: [],
+  authUser: {}
 }
 
 // getters
@@ -13,7 +14,8 @@ const getters = {
   getAuthorById: state => id => {
     let intId = +id;
     return state.authors.find(author => author.id === intId);
-  }
+  },
+
 }
 
 // actions
@@ -31,6 +33,7 @@ const actions = {
     // context.commit('setPosts', posts)
   },
 
+
 }
 
 // mutations
@@ -38,7 +41,8 @@ const mutations = {
   
   setAuthors (state, authors) {
     state.authors = authors
-  }
+  },
+
 }
 
 export default {

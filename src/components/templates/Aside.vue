@@ -4,8 +4,17 @@
     <!-- <p>posts in database: {{ posts.length }}</p> -->
     <div class="content-container">
       <p>authors: {{ authorsCount }}</p>
-      
       <p>posts: {{ postsCount }}</p>
+      <div class="user-panel" v-if="authUser">
+        <p v-if="userPosts.length">Your 
+          <router-link :to="{ name: 'PostsPage', params: {authorId: authUser.id} }"> Posts</router-link>
+        </p>
+        <p v-else>You do not have any posts yet</p>
+        <p>Write a new Post</p>
+        <!-- <router-link :to="'/authors/'+ auth.userId +'/posts/' + post.id"> -->
+        <!-- {{ post.title }}</router-link> -->
+      </div>
+
     </div>
     <!-- <ul>
       <li v-for="post in posts">
@@ -16,7 +25,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Aside',
@@ -26,18 +35,21 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      posts: state => state.posts.posts,
+    // ...mapState({
+      // posts: state => state.posts.posts,
       // postsCount() {
       //   console.log(this.$store.getters.postsCount )
       //   return this.$store.getters.postsCount
       // }
-    }),
+    // }),
     ...mapGetters({
       postsCount: 'posts/postsCount',
-      authorsCount: 'authors/authorsCount'
-
+      authorsCount: 'authors/authorsCount',
+      authUser: 'auth/authUser'
     }),
+    userPosts() {
+      return this.$store.getters['posts/getPostsByAuthor'](this.authUser.id)
+    },
   },
   created() {
     // console.log('store: ', this.$store)
@@ -47,7 +59,6 @@ export default {
     this.$store.dispatch('posts/getPosts');
 
       // console.log('getters: ', this.$store.getters['posts/postsCount'] )
-
   } 
 }
 </script>

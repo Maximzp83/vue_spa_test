@@ -20,25 +20,29 @@ const getters = {
     return state.posts.filter(post => post.userId === intId);
   },
   getMostViewedPosts: state => {
+    // console.log('getMostViewedPosts')
     var posts = state.posts;
     var postsWithMaxViews = [];
-        postsWithMaxViews.push(posts[0]);
-        postsWithMaxViews.push(posts[1]);
-
-        // console.log(postsWithMaxViews)
     
-    for (let i = 0; i < posts.length; i++) {
-      // console.log(posts[i].views)
-      if (posts[i].views > postsWithMaxViews[0].views) {
-        postsWithMaxViews[0] = posts[i];
-      } 
-    }
-    for (let i = 0; i < posts.length; i++) {
-      if (posts[i] != postsWithMaxViews[0] && posts[i].views > postsWithMaxViews[1].views) {
-        postsWithMaxViews[1] = posts[i];
-      } 
-    }
+    if (posts.length) {
+      postsWithMaxViews.push(posts[0]);
+      postsWithMaxViews.push(posts[1]);
 
+          // console.log(postsWithMaxViews)
+      
+      for (let i = 0; i < posts.length; i++) {
+        // console.log(posts[i].views)
+        if (posts[i].views > postsWithMaxViews[0].views) {
+          postsWithMaxViews[0] = posts[i];
+        } 
+      }
+      for (let i = 0; i < posts.length; i++) {
+        if (posts[i] != postsWithMaxViews[0] && posts[i].views > postsWithMaxViews[1].views) {
+          postsWithMaxViews[1] = posts[i];
+        } 
+      }
+    }
+    
     // console.log(postsWithMaxViews)
 
     return postsWithMaxViews
