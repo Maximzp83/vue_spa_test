@@ -1,9 +1,11 @@
 import dataBase from '../../api/dataBase'
+import router from '../../router/index'
 
 // initial state
 const state = {
   posts: [],
-  count: 0
+  count: 0,
+  postAddStatus: ''
 }
 
 // getters
@@ -46,6 +48,11 @@ const getters = {
     // console.log(postsWithMaxViews)
 
     return postsWithMaxViews
+  },
+
+  postAddStatus: state => {
+    // console.log(state.authUser)
+    return state.postAddStatus
   }
 }
 
@@ -63,6 +70,30 @@ const actions = {
     })
     // context.commit('setPosts', posts)
   },
+  addPost ({commit, dispatch}, post) {
+    const newPost = post.post;
+    // console.log(post.post)
+    return new Promise((resolve, reject) => { 
+      commit('NEW_POST_REQUEST')
+
+      dataBase.addPost(newPost, () => resolve())
+     
+    }).then(() => { 
+        dataBase.getPosts(posts => {
+          // console.log('dfg')
+          commit('setPosts', posts)
+          commit('NEW_POST_SUCCESS')
+
+          setTimeout(() => {
+            // console.log('postAddStatus: ', state.postAddStatus)
+            commit('POST_STATUS_CLEAR')
+            router.push('/posts')          
+          }, 1500)
+        })
+
+        // resolve()
+      })
+  }
 
 }
 
@@ -73,7 +104,21 @@ const mutations = {
   },
   setPosts (state, posts) {
     state.posts = posts
-  }
+  },
+  POST_STATUS_CLEAR: (state) => {
+    state.postAddStatus = ''
+  },
+  NEW_POST_REQUEST: (state) => {
+    state.postAddStatus = 'loading'
+  },
+  NEW_POST_SUCCESS: (state) => {
+    state.postAddStatus = 'success'
+    // state.posts = posts
+  },
+   NEW_POST_ERROR: (state) => {
+    state.postAddStatus = 'error'
+  },
+
 }
 
 export default {

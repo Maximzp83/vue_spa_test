@@ -6,21 +6,21 @@
       <p>authors: {{ authorsCount }}</p>
       <p>posts: {{ postsCount }}</p>
       <div class="user-panel" v-if="authUser">
+        <h4 class="title">User Panel</h4>
         <p v-if="userPosts.length">Your 
-          <router-link :to="{ name: 'PostsPage', params: {authorId: authUser.id} }"> Posts</router-link>
+          <router-link :to="{ name: 'authorPosts', params: {authorId: authUser.id} }"> Posts</router-link>
         </p>
         <p v-else>You do not have any posts yet</p>
-        <p>Write a new Post</p>
+        <p>
+          <router-link :to="{ name: 'NewPost', params: {authUserId: authUser.id} }">Write a new Post</router-link>
+
+        </p>
         <!-- <router-link :to="'/authors/'+ auth.userId +'/posts/' + post.id"> -->
         <!-- {{ post.title }}</router-link> -->
       </div>
 
     </div>
-    <!-- <ul>
-      <li v-for="post in posts">
-        {{ post.title }}
-      </li>
-    </ul> -->
+
   </aside>
 </template>
 

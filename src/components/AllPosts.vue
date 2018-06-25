@@ -2,8 +2,15 @@
   <div class="page-wrapper">
     <Aside></Aside>
     <div class="page-content">
-      <h1 v-if="author" class="title"><i>{{ author.name }}</i> Posts</h1>
-      <h1 v-else>All posts</h1>
+<!--       <div v-if="author">
+  <h1 class="title"><i>{{ author.name }}</i> Posts</h1>
+  <div v-if="authUser && authUser.id == author.id">
+    <router-link :to="'/authors/'+ authUser.id +'/posts/new-post'">
+    Write new post</router-link>
+    <router-link :to="{ name: 'NewPost', params: {authUserId: authUser.id} }">Write new post</router-link>
+  </div>
+</div> -->
+      <h1>All posts</h1>
       <hr>
       <div v-if="posts.length">
         <ol>
@@ -29,33 +36,21 @@ export default {
   components: {
     Aside,
   },
-  name: 'PostsPage',
+  name: 'AllPosts',
   props: ['id'],
   data () {
     return {
       title: '',
       localPosts: {},
-      authorId: this.$route.params.authorId
     }
   },
   computed: {
-    // ...mapState({
-    //   posts: state => state.posts.posts,
-    // }),
-    author() {
-      return  this.$store.getters['authors/getAuthorById'](this.authorId);
-    },
-    posts() {
-      // console.log('props', this.$route.params.id)
-      if (this.authorId) {
-        this.localPosts = this.$store.getters['posts/getPostsByAuthor'](this.authorId)
-      } else {
-        this.localPosts = this.$store.state.posts.posts
-      }
-      return this.localPosts
-    }, 
-    
+    ...mapState({
+      posts: state => state.posts.posts,
+    }),   
   },
+
+  
 }
 </script>
 

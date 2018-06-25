@@ -13,6 +13,7 @@ const getters = {
   },
   getAuthorById: state => id => {
     let intId = +id;
+    // console.log(state.authors)
     return state.authors.find(author => author.id === intId);
   },
 

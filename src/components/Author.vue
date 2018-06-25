@@ -9,7 +9,7 @@
           <!-- <router-link
             v-bind:to="'/authors/' + author.id + '/posts'"> Posts</router-link> -->
             <router-link
-              :to="{ name: 'PostsPage', 
+              :to="{ name: 'authorPosts', 
                     params: {authorId: author.id} }"> Posts</router-link>
         </div>
       </div>
@@ -44,7 +44,7 @@ export default {
     Aside,
   },
   name: 'Author',
-  props: ['id'],
+  props: ['authorId'],
   data () {
     return {
       title: 'Author Info',
@@ -62,10 +62,10 @@ export default {
     }),
     author() {
       // this.localAuthor.hasPosts
-      return  this.$store.getters['authors/getAuthorById'](this.id);
+      return  this.$store.getters['authors/getAuthorById'](this.authorId);
     },
     posts() {
-      return this.$store.getters['posts/getPostsByAuthor'](this.id)
+      return this.$store.getters['posts/getPostsByAuthor'](this.authorId)
     },    
   },
 

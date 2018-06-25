@@ -181,7 +181,8 @@ a:hover {
   margin-top: 10px;
 }
 
-.form-group input {
+.form-group input,
+.form-group textarea {
   height: 40px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -189,7 +190,10 @@ a:hover {
   padding: 3px 5px;
   margin-left: 5px;
   flex-basis: 75%;
+}
 
+.form-group textarea {
+  min-height: 150px;
 }
 
 .form-group label {

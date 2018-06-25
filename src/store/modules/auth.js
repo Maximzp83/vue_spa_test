@@ -5,6 +5,7 @@ import router from '../../router/index'
 const state = {
   authUser: JSON.parse( localStorage.getItem('authUser') ) || '',
   status: '',
+  
 }
 
 // getters
@@ -14,7 +15,10 @@ const getters = {
   
   authStatus: state => state.status,
 
-  authUser: state => state.authUser
+  authUser: state => {
+    // console.log(state.authUser)
+    return state.authUser
+  }
 
 }
 

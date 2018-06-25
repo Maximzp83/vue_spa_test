@@ -1,4 +1,4 @@
-const _posts = [
+let _posts = [
   {"id": 1, "title": "post 1", "userId": 1, "views": 0, "body": 'Lorem ipsum dolor sit amet, consectetur.'},
   {"id": 2, "title": "post 2", "userId": 1, "views": 1, "body": 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, sunt.'},
   {"id": 3, "title": "post 3", "userId": 2, "views": 7, "body": 'Lorem ipsum dolor sit amet, consectetur adipisicing.'},
@@ -8,7 +8,7 @@ const _posts = [
   {"id": 7, "title": "post 7", "userId": 3, "views": 2, "body": 'Lorem ipsum dolor sit amet, consectetur adipisicing. 7'},
 ]
 
-let currentPostId = 7;
+let nextPostId = 8;
 
 export default {
 
@@ -31,5 +31,19 @@ export default {
     //     })
     // }, 1000)
 
+  },
+
+  addPost (post, callback) {
+    setTimeout(() => {
+      post.id = nextPostId;
+      // console.log('post: ', post)
+
+      _posts.push(post);
+      // console.log('posts: ', _posts)
+
+      nextPostId++
+
+      callback()
+    }, 500)
   }
 }
