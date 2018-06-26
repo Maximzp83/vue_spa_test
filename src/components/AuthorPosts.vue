@@ -2,14 +2,14 @@
   <div class="page-wrapper">
     <Aside></Aside>
     <div class="page-content">
-      <!-- <div v-if="author"> -->
+      <div v-if="author">
         <h1 class="title"><i>{{ author.name }}</i> Posts</h1>
         <div v-if="authUser && authUser.id == author.id">
           <!-- <router-link :to="'/authors/'+ authUser.id +'/posts/new-post'"> -->
           <!-- Write new post</router-link> -->
           <router-link :to="{ name: 'NewPost', params: {authUserId: authUser.id} }">Write new post</router-link>
         </div>
-      <!-- </div> -->
+      </div>
       <!-- <h1 v-else>All posts</h1> -->
       <hr>
       <div v-if="posts.length">
@@ -41,7 +41,7 @@ export default {
     return {
       title: '',
       localPosts: {},
-      localAuthorId: this.$props.id || this.$route.params.authorId ,
+      localAuthorId: this.authorId || this.$route.params.authorId ,
     }
   },
   computed: {

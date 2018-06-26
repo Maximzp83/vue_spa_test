@@ -2,8 +2,8 @@
   <div class="relative">
     <div v-if="postAddStatus == 'success'" class="message-box success">New Post added</div>
     <!-- <div v-else-if="authStatus == 'error'" class="message-box warning">Login {{ authStatus }}, user not found</div> -->
-
-    <form class="form postForm" @submit.prevent="submit">
+    <div v-if="postAddStatus === 'loading'" class="title"><b>Processing ...</b></div>
+    <form v-if="postAddStatus === 'ready'" class="form postForm" @submit.prevent="submit">
       <h1 class="title">New Post</h1>
       <div class="form-group">
         <label>Post title</label>
@@ -41,7 +41,7 @@ export default {
         title: null,
         body: null,
         views: 0
-      }
+      },      
     }
   },
   computed: {
@@ -50,15 +50,25 @@ export default {
     }),
   },
   methods: {
-   submit: function () {
-      // const {newPost } = this;
-      // console.log(postTitle)
-      this.$store.dispatch('posts/addPost', { post: this.newPost }).then(() => {
-        // console.log(this.$store.state.posts.postAddStatus)
-      })
+    submit: function () {
+      if (this.$store.state.posts.postAddStatus === 'ready') {
+        // console.log('ready' )
+        this.$store.dispatch('posts/addPost', { post: this.newPost }).then(() => {
+          // console.log(this.$store.state.posts.postAddStatus)
+        })
+      } else {
+        console.log('not  ready' )
+      }
+
+        // const {newPost } = this;
+        // console.log(postTitle)
+      
       // this.newPost
     }
-  }
+  },
+  // updated() {
+  //   console.log('updated:', this.localPostAddStatus)
+  // }
   
 }
 </script>

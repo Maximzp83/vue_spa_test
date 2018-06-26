@@ -51,7 +51,16 @@ export default {
       this.$store.dispatch('auth/logout')
     },
 
-  }
+  },
+  created() {
+    // console.log('store: ', this.$store)
+    // this.$store.commit('increment', 5);
+    // this.$store.dispatch('getPosts', { amount: 10 });
+    this.$store.dispatch('authors/getAuthors');
+    this.$store.dispatch('posts/getPosts');
+
+      // console.log('getters: ', this.$store.getters['posts/postsCount'] )
+  } 
 }
 </script>
 

@@ -5,16 +5,18 @@ import router from '../../router/index'
 const state = {
   posts: [],
   count: 0,
-  postAddStatus: ''
+  postAddStatus: 'ready',
+  
 }
 
 // getters
-const getters = {
+const getters = { 
   postsCount: state => {
     return state.posts.length;
   },
   getPostById: state => id => {
     let intId = +id;
+    // console.log('getter: ', state.posts)
     return state.posts.find(post => post.id === intId);
   },
   getPostsByAuthor: state => id => {
@@ -82,17 +84,41 @@ const actions = {
         dataBase.getPosts(posts => {
           // console.log('dfg')
           commit('setPosts', posts)
-          commit('NEW_POST_SUCCESS')
+          // commit('NEW_POST_SUCCESS')
 
-          setTimeout(() => {
-            // console.log('postAddStatus: ', state.postAddStatus)
+          // setTimeout(() => {
             commit('POST_STATUS_CLEAR')
+            this.dispatch('globalWarning', {
+              message: 'Post successfuly added',
+              status: 'success' 
+            }) 
             router.push('/posts')          
-          }, 1500)
+          // }, 1500)
         })
 
         // resolve()
       })
+  },
+
+  editPost ({commit, dispatch}, post) {
+    const newPost = post.post;
+    return new Promise((resolve, reject) => { 
+      commit('NEW_POST_REQUEST')
+
+      dataBase.savePost(newPost, () => resolve())
+     
+    }).then(() => {
+      dataBase.getPosts(posts => {
+        // console.log('dfg')
+        commit('setPosts', posts)
+        commit('NEW_POST_SUCCESS')
+
+        setTimeout(() => {
+          // console.log('postAddStatus: ', state.postAddStatus)
+          commit('POST_STATUS_CLEAR')
+        }, 1500)
+      })
+    })
   }
 
 }
@@ -106,7 +132,7 @@ const mutations = {
     state.posts = posts
   },
   POST_STATUS_CLEAR: (state) => {
-    state.postAddStatus = ''
+    state.postAddStatus = 'ready'
   },
   NEW_POST_REQUEST: (state) => {
     state.postAddStatus = 'loading'

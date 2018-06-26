@@ -39,20 +39,6 @@ const actions = {
         }
       )
 
-       // axios({url: 'auth', data: user, method: 'POST' })
-       //   .then(resp => {
-       //     const authUser = resp.data.token
-       //     localStorage.setItem('authUser', authUser) // store the token in localstorage
-       //     commit(AUTH_SUCCESS, authUser)
-       //     // you have your token, now log in your user :)
-       //     dispatch(USER_REQUEST)
-       //     resolve(resp)
-       //   })
-       // .catch(err => {
-       //   commit(AUTH_ERROR, err)
-       //   localStorage.removeItem('authUser') // if the request fails, remove any possible user token if possible
-       //   reject(err)
-       // })
     }).then(() => {
         // console.log('authStatus: ', state.status)
         if (state.status == 'success') {
@@ -68,6 +54,7 @@ const actions = {
 
   logout: ({commit, dispatch}) => {
       commit('LOG_OUT')
+      router.push('/')               
   }
 
 

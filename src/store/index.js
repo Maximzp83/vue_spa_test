@@ -5,6 +5,7 @@ import Vue from 'vue'
 import auth from './modules/auth'
 import posts from './modules/posts'
 import authors from './modules/authors'
+import global from './modules/global'
 
 
 // import cart from './cart'
@@ -13,9 +14,11 @@ import authors from './modules/authors'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+
   modules: {
     auth,
     posts,
     authors,
+    global
   }
 })

@@ -29,10 +29,47 @@ button {
   cursor: pointer;
 }
 
+.global-message {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  padding: 15px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.global-message.warning {
+  background-color: yellow;
+}
+.global-message.success {
+  background-color: lightgreen;
+}
+.global-message.error {
+  background-color: #e37b8f;
+}
+
 .relative {
   position: relative;
 }
 
+.flex {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+}
+
+.flex.center {
+  justify-content: center;
+}
+
+.flex .toRight {
+  margin-left: auto;
+}
+/*=================*/
 .title {
   text-align: center;
   text-transform: capitalize;
@@ -40,7 +77,17 @@ button {
 .sub-title {
   /*font-size: 0.9em;*/
   /*margin-top: 5px;*/
+  
   text-align: center;
+}
+
+.sub-title .toRight {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.post-title-block {
 }
 
 .preloader {

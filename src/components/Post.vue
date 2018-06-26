@@ -5,7 +5,16 @@
       <!-- <h1 class="title"><i>{{ authors[id].name }}</i> Info</h1> -->
       <div v-if="post">
         <h1 class="title">{{ post.title }}</h1>
-        <div class="sub-title">By: <router-link :to="'/authors/' + author.id"><i>{{ author.name }}</i></router-link></div>
+        <div class="sub-title relative">
+          <div>By: 
+            <router-link :to="'/authors/' + author.id"><i>{{ author.name }}</i></router-link>
+          </div>
+          <div v-if="authUser && authUser.id == author.id" class="toRight">
+            <router-link :to="{ name: 'EditPost',
+               params: {authorId: authUser.id, id: post.id } }">Edit this Post
+            </router-link>
+          </div>
+        </div>
       </div>
       <h1 class="title" v-else>Loading Post</h1>
       <hr>
@@ -21,7 +30,7 @@
 
 <script>
 import Aside from './templates/Aside'
-// import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -39,11 +48,12 @@ export default {
       // posts: state => state.posts.posts,
       // authors: state => state.authors.authors,
     // }),
-    // ...mapGetters({
+    ...mapGetters({
       // postsCount: 'posts/postsCount',
       // authorsCount: 'authors/authorsCount'
       // Author: 'authors/getAuthorById', this.$props.id
-    // }),
+      authUser: 'auth/authUser'
+    }),
 
     post() {
       return  this.$store.getters['posts/getPostById'](this.id);

@@ -45,5 +45,21 @@ export default {
 
       callback()
     }, 500)
+  },
+
+  savePost (post, callback) {
+    setTimeout(() => {
+      let result;
+      for (var i = 0; i < _posts.length; i++) {
+        if (_posts[i].id == post.id ) {
+          _posts[i] = post;
+          result = 'success'
+        }
+      }
+      // console.log('posts: ', _posts)
+
+      callback()
+    }, 500)
   }
+
 }
