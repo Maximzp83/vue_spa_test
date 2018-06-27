@@ -1,6 +1,5 @@
 <template>
   <div class="relative">
-    <div v-if="postAddStatus == 'success'" class="message-box success">Post Saved</div>
     <!-- <div v-else-if="authStatus == 'error'" class="message-box warning">Login {{ authStatus }}, user not found</div> -->
     <div v-if="postAddStatus === 'loading'" class="title"><b>Processing ...</b></div>
     <div v-if="post">

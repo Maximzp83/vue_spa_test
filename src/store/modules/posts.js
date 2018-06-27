@@ -46,9 +46,7 @@ const getters = {
         } 
       }
     }
-    
     // console.log(postsWithMaxViews)
-
     return postsWithMaxViews
   },
 
@@ -60,6 +58,7 @@ const getters = {
 
 // actions
 const actions = {
+
   // getPosts (context, {amount}) {
   getPosts ({ commit}) {
     // console.log('number: ', amount)
@@ -81,11 +80,11 @@ const actions = {
       dataBase.addPost(newPost, () => resolve())
      
     }).then(() => { 
+      // console.log(this)
         dataBase.getPosts(posts => {
           // console.log('dfg')
           commit('setPosts', posts)
           // commit('NEW_POST_SUCCESS')
-
           // setTimeout(() => {
             commit('POST_STATUS_CLEAR')
             this.dispatch('globalWarning', {
@@ -112,7 +111,10 @@ const actions = {
         // console.log('dfg')
         commit('setPosts', posts)
         commit('NEW_POST_SUCCESS')
-
+        this.dispatch('globalWarning', {
+          message: 'Post successfully saved',
+          status: 'success' 
+        }) 
         setTimeout(() => {
           // console.log('postAddStatus: ', state.postAddStatus)
           commit('POST_STATUS_CLEAR')

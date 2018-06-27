@@ -5,7 +5,7 @@
       <h1 class="title">{{ title }}</h1>
       <hr>
       <ol>
-        <li v-for="author in authors">
+        <li v-for="author in authors" :key="author.id">
           <router-link v-bind:to="'/authors/' + author.id">{{ author.name }}</router-link>
         </li>
       </ol>

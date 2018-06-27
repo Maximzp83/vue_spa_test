@@ -33,7 +33,7 @@ button {
   position: absolute;
   top: 0;
   text-align: center;
-  padding: 15px;
+  padding: 15px 35px;
   width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -48,6 +48,16 @@ button {
 }
 .global-message.error {
   background-color: #e37b8f;
+}
+
+.global-message button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .relative {

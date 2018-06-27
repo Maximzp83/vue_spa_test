@@ -1,8 +1,6 @@
 <template>
   <div class="relative">
-    <div v-if="authStatus == 'success'" class="message-box success">Login {{ authStatus }}</div>
-    <div v-else-if="authStatus == 'error'" class="message-box warning">Login {{ authStatus }}, user not found</div>
-
+    
     <form class="form login" @submit.prevent="submit">
       <h1 class="title">Sign in</h1>
       <div class="form-group">
@@ -22,7 +20,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 
 export default {
   name: 'Login',
@@ -34,9 +32,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      authStatus: 'auth/authStatus',
-    }),
+    // ...mapGetters({
+    //   // authStatus: 'auth/authStatus',
+    // }),
   },
   methods: {
    submit: function () {

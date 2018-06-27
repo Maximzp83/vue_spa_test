@@ -59,16 +59,8 @@ export default {
       } else {
         console.log('not  ready' )
       }
-
-        // const {newPost } = this;
-        // console.log(postTitle)
-      
-      // this.newPost
     }
   },
-  // updated() {
-  //   console.log('updated:', this.localPostAddStatus)
-  // }
   
 }
 </script>

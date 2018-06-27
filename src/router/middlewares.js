@@ -8,6 +8,10 @@ const middlewares = router.beforeEach((to, from, next) => {
     if (store.getters['auth/isAuthenticated']) {
       next()
     } else {
+      store.dispatch('globalWarning', {
+        message: 'this page is only available to logged-in users',
+        status: 'warning' 
+      })
       next({
         path: '/login',
         query: { redirect: to.fullPath }

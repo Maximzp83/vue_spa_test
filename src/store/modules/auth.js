@@ -25,7 +25,8 @@ const getters = {
 // actions
 const actions = {
 
-  login_Attempt: ({commit, dispatch}, user) => {
+  login_Attempt ({commit, dispatch}, user) {
+
     return new Promise((resolve, reject) => { // The Promise used for router redirect in login
       commit('AUTH_REQUEST')
 
@@ -42,18 +43,29 @@ const actions = {
     }).then(() => {
         // console.log('authStatus: ', state.status)
         if (state.status == 'success') {
+          this.dispatch('globalWarning', {
+            message: 'you have successfully logged in as '+state.authUser.name,
+            status: 'success' 
+          }) 
           // console.log( state.authUser )
           localStorage.setItem('authUser', JSON.stringify(state.authUser) ) // store the token in localstorage
           router.push('/')          
           // console.log(router)
         } else {
-
+          this.dispatch('globalWarning', {
+            message: 'Something Wrong! User with this Id not found',
+            status: 'error' 
+          }) 
         }
       })
   },
 
-  logout: ({commit, dispatch}) => {
+  logout ({commit, dispatch}) {
       commit('LOG_OUT')
+      this.dispatch('globalWarning', {
+        message: 'You signed out of your account',
+        status: 'warning' 
+      })
       router.push('/')               
   }
 

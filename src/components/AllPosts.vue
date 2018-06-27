@@ -14,7 +14,7 @@
       <hr>
       <div v-if="posts.length">
         <ol>
-          <li v-for="post in posts">
+          <li v-for="post in posts" :key="post.id">
             <router-link :to="'/authors/'+ post.userId +'/posts/' + post.id">
             {{ post.title }}</router-link>
           </li>
