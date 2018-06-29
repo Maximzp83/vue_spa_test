@@ -5,7 +5,7 @@ import router from '../../router/index'
 const state = {
   posts: [],
   count: 0,
-  postAddStatus: 'ready',
+  postActionStatus: 'ready',
   
 }
 
@@ -50,9 +50,9 @@ const getters = {
     return postsWithMaxViews
   },
 
-  postAddStatus: state => {
+  postActionStatus: state => {
     // console.log(state.authUser)
-    return state.postAddStatus
+    return state.postActionStatus
   }
 }
 
@@ -60,7 +60,7 @@ const getters = {
 const actions = {
 
   // getPosts (context, {amount}) {
-  getPosts ({ commit}) {
+  getPosts ({ commit }) {
     // console.log('number: ', amount)
     // context.commit('increment', amount)
     
@@ -77,25 +77,28 @@ const actions = {
     return new Promise((resolve, reject) => { 
       commit('NEW_POST_REQUEST')
 
-      dataBase.addPost(newPost, () => resolve())
+      dataBase.addPost(newPost, () => resolve(), () => reject())
      
     }).then(() => { 
-      // console.log(this)
         dataBase.getPosts(posts => {
-          // console.log('dfg')
           commit('setPosts', posts)
-          // commit('NEW_POST_SUCCESS')
-          // setTimeout(() => {
-            commit('POST_STATUS_CLEAR')
-            this.dispatch('globalWarning', {
-              message: 'Post successfuly added',
-              status: 'success' 
-            }) 
-            router.push('/posts')          
-          // }, 1500)
+          
+          this.dispatch('globalWarning', {
+            message: 'Post successfuly added',
+            status: 'success' 
+          }) 
+          router.push('/posts') 
+          
+          setTimeout(() => { commit('POST_STATUS_CLEAR') }, 1000)
         })
 
-        // resolve()
+      }).catch(() => {
+        this.dispatch('globalWarning', {
+          message: 'Error - Post not added',
+          status: 'error' 
+        })
+
+        commit('POST_STATUS_CLEAR')
       })
   },
 
@@ -104,7 +107,36 @@ const actions = {
     return new Promise((resolve, reject) => { 
       commit('NEW_POST_REQUEST')
 
-      dataBase.savePost(newPost, () => resolve())
+      dataBase.savePost(newPost, () => resolve(), () => reject())
+     
+    }).then(() => {
+      dataBase.getPosts(posts => {
+        commit('setPosts', posts)
+        this.dispatch('globalWarning', {
+          message: 'Post successfully saved',
+          status: 'success' 
+        }) 
+        
+        router.push('/posts')          
+
+        setTimeout(() => { commit('POST_STATUS_CLEAR') }, 1000)
+      })
+    }).catch(() => {
+      this.dispatch('globalWarning', {
+        message: 'Error - Post not saved',
+        status: 'error' 
+      })
+
+      commit('POST_STATUS_CLEAR')
+    })
+  },
+
+  deletePost ({commit, dispatch}, post) {
+    const deletingPost = post.post;
+    return new Promise((resolve, reject) => { 
+      commit('NEW_POST_REQUEST')
+
+      dataBase.removePost(deletingPost, () => resolve(), () => reject())
      
     }).then(() => {
       dataBase.getPosts(posts => {
@@ -112,14 +144,21 @@ const actions = {
         commit('setPosts', posts)
         commit('NEW_POST_SUCCESS')
         this.dispatch('globalWarning', {
-          message: 'Post successfully saved',
+          message: 'Post successfully removed',
           status: 'success' 
-        }) 
-        setTimeout(() => {
-          // console.log('postAddStatus: ', state.postAddStatus)
-          commit('POST_STATUS_CLEAR')
-        }, 1500)
+        })
+        
+        router.push('/posts')          
+
+        setTimeout(() => { commit('POST_STATUS_CLEAR') }, 1000)
       })
+    }).catch(() => {
+      this.dispatch('globalWarning', {
+        message: 'Error - Post not removed',
+        status: 'error' 
+      })
+
+      commit('POST_STATUS_CLEAR')
     })
   }
 
@@ -134,17 +173,17 @@ const mutations = {
     state.posts = posts
   },
   POST_STATUS_CLEAR: (state) => {
-    state.postAddStatus = 'ready'
+    state.postActionStatus = 'ready'
   },
   NEW_POST_REQUEST: (state) => {
-    state.postAddStatus = 'loading'
+    state.postActionStatus = 'loading'
   },
   NEW_POST_SUCCESS: (state) => {
-    state.postAddStatus = 'success'
+    state.postActionStatus = 'success'
     // state.posts = posts
   },
-   NEW_POST_ERROR: (state) => {
-    state.postAddStatus = 'error'
+  NEW_POST_ERROR: (state) => {
+    state.postActionStatus = 'error'
   },
 
 }

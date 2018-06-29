@@ -3,22 +3,29 @@
     <Aside></Aside>
     <div class="page-content">
       <!-- <h1 class="title"><i>{{ authors[id].name }}</i> Info</h1> -->
-      <div v-if="post">
-        <h1 class="title">{{ post.title }}</h1>
-        <div class="sub-title relative">
-          <div>By: 
-            <router-link :to="'/authors/' + author.id"><i>{{ author.name }}</i></router-link>
-          </div>
-          <div v-if="authUser && authUser.id == author.id" class="toRight">
-            <router-link :to="{ name: 'EditPost',
-               params: {authorId: authUser.id, id: post.id } }">Edit this Post
-            </router-link>
+      <div v-if="postActionStatus === 'loading'" class="title"><b>Processing ...</b></div>
+
+      <div v-else-if="postActionStatus === 'ready'">
+        <div v-if="post">
+          <h1 class="title">{{ post.title }}</h1>
+          <div class="sub-title relative">
+            <div>By: 
+              <router-link :to="'/authors/' + author.id"><i>{{ author.name }}</i></router-link>
+            </div>
+            <div v-if="authUser && authUser.id == author.id" class="toRight">
+              <router-link :to="{ name: 'EditPost',
+                 params: {authorId: authUser.id, id: post.id } }">Edit this Post
+              </router-link>
+              <button type="button" class="delete-button" v-on:click="deleteClick">
+                Delete this Post
+              </button>
+            </div>
           </div>
         </div>
+        <h1 class="title" v-else>Loading Post</h1>
       </div>
-      <h1 class="title" v-else>Loading Post</h1>
       <hr>
-      <div v-if="post" class="description">
+      <div v-if="postActionStatus === 'ready' && post" class="description">
         <p>{{ post.body }}</p>
       </div>
       <div v-else class="preloader">
@@ -30,47 +37,44 @@
 
 <script>
 import Aside from './templates/Aside'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  components: {
-    Aside,
-  },
+  components: { Aside },
   name: 'Post',
   props: ['authorId', 'id'],
-  data () {
-    return {
-      title: '',
-    }
-  },
+
   computed: {
-    // ...mapState({
-      // posts: state => state.posts.posts,
-      // authors: state => state.authors.authors,
-    // }),
     ...mapGetters({
-      // postsCount: 'posts/postsCount',
-      // authorsCount: 'authors/authorsCount'
-      // Author: 'authors/getAuthorById', this.$props.id
-      authUser: 'auth/authUser'
+      postActionStatus: 'posts/postActionStatus',
+      authUser: 'auth/authUser',
+      getPost: 'posts/getPostById',
+      getAuthor: 'authors/getAuthorById'
     }),
 
     post() {
-      return  this.$store.getters['posts/getPostById'](this.id);
+      return this.getPost(this.id);
     },
     author() {
-      return this.$store.getters['authors/getAuthorById'](this.authorId)
+      return this.getAuthor(this.authorId)
     }
   },
 
-  // created() {
-  //   if (!this.authToken) {
-  //     this.$router.replace('/login');
-  //   }
-  // },
-  updated() {
-    // console.log(this.$props)
-  }
+  methods: {
+    ...mapActions({ deletePost: 'posts/deletePost', notify: 'globalWarning' }),
+
+    deleteClick: function () {
+      // console.log(data)
+      if (this.postActionStatus === 'ready') {
+        this.deletePost({ post: this.post })
+      } else {
+        this.notify({
+          message: 'deleting Post in progress, please wait',
+          status: 'warning' 
+        })
+      }
+    }
+  },
   
 }
 </script>

@@ -289,3 +289,8 @@ a:hover {
 .user-panel {
   border-top: 1px solid #7a7878;
 }
+
+.delete-button {
+  margin-left: 10px;
+    
+}

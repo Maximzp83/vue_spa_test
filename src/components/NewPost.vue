@@ -1,67 +1,47 @@
 <template>
   <div class="relative">
-    <div v-if="postAddStatus == 'success'" class="message-box success">New Post added</div>
-    <!-- <div v-else-if="authStatus == 'error'" class="message-box warning">Login {{ authStatus }}, user not found</div> -->
-    <div v-if="postAddStatus === 'loading'" class="title"><b>Processing ...</b></div>
-    <form v-if="postAddStatus === 'ready'" class="form postForm" @submit.prevent="submit">
-      <h1 class="title">New Post</h1>
-      <div class="form-group">
-        <label>Post title</label>
-        <input required v-model="newPost.title" type="text" placeholder="input title"/>
-      </div>
-      <div class="form-group">
-        <label>Content</label>
-        <textarea v-model="newPost.body" placeholder="text"></textarea>
-      </div>
-      <hr/>
-      <div class="submitButtonWrapper">
-        <button type="submit">Add post</button>
-      </div>
-    </form>
+    <div v-if="postActionStatus === 'loading'" class="title"><b>Processing ...</b></div>
+   
+    <PostForm v-if="postActionStatus === 'ready'"
+      title="New Post"
+      buttonText="Add Post"
+      v-bind:authUser="authUser"
+      v-on:submit="submit"
+    ></PostForm>
+    
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import PostForm from './templates/PostForm'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  components: { PostForm },
   name: 'NewPost',
-  // beforeRouteEnter (to, from, next) {
-  //   (vm) => {
-      
-  //     // console.log(vm)
-  //   } 
-  //   // if (true) {}
-  // },
-  // props: ['authUserId'],
-  data () {
-    return {
-      newPost: {
-        userId: this.$store.state.auth.authUser ? this.$store.state.auth.authUser.id :null,
-        title: null,
-        body: null,
-        views: 0
-      },      
-    }
-  },
+
   computed: {
     ...mapGetters({
-      postAddStatus: 'posts/postAddStatus',
+      postActionStatus: 'posts/postActionStatus',
+      authUser: 'auth/authUser'
     }),
   },
   methods: {
-    submit: function () {
-      if (this.$store.state.posts.postAddStatus === 'ready') {
-        // console.log('ready' )
-        this.$store.dispatch('posts/addPost', { post: this.newPost }).then(() => {
-          // console.log(this.$store.state.posts.postAddStatus)
-        })
+    ...mapActions({ addPost: 'posts/addPost', notify: 'globalWarning' }),
+
+    submit: function (data) {
+      // console.log('newPost: ', data)
+      // if (this.$store.state.posts.postActionStatus === 'ready') {
+      if (this.postActionStatus === 'ready') {
+        this.addPost({ post: data }).then(() => { console.log('new post promise') })
       } else {
-        console.log('not  ready' )
+        this.notify({
+          message: 'adding Post in progress, please wait',
+          status: 'warning' 
+        })
       }
     }
   },
-  
 }
 </script>
 

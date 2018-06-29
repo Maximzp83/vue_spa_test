@@ -33,32 +33,59 @@ export default {
 
   },
 
-  addPost (post, callback) {
+  addPost (post, callback, callbackError) {
     setTimeout(() => {
       post.id = nextPostId;
       // console.log('post: ', post)
-
       _posts.push(post);
       // console.log('posts: ', _posts)
 
-      nextPostId++
+      let isAdded =  _posts.some(function(_post) {
+        return _post.id == post.id
+      })
 
-      callback()
-    }, 500)
+      if (isAdded) {
+        nextPostId++;
+        callback();
+      } else callbackError();
+    }, 100)
   },
 
-  savePost (post, callback) {
+  savePost (post, callback, callbackError) {
     setTimeout(() => {
-      let result;
-      for (var i = 0; i < _posts.length; i++) {
-        if (_posts[i].id == post.id ) {
-          _posts[i] = post;
-          result = 'success'
+      
+      let result = 0;
+      // for (var i = 0; i < _posts.length; i++) {
+      //   if (_posts[i].id == post.id ) {
+      //     _posts[i] = post;
+      //     result = 'success'
+      //   }
+      // }
+      _posts = _posts.map(function(_post) {
+        if (_post.id == post.id) {
+          _post = post;
+          result++;
         }
-      }
+         return _post;
+      })   
       // console.log('posts: ', _posts)
 
-      callback()
+      result == 1 ? callback() : callbackError();
+      
+    }, 100)
+  },
+
+  removePost (post, callback, callbackError) {
+    setTimeout(() => {
+      let result = 0;
+
+      _posts =_posts.filter( function(_post) {
+        _post.id === post.id ? result++ : null;
+        return _post.id !== post.id
+      }) 
+
+      result == 1 ? callback() : callbackError();
+      
     }, 500)
   }
 

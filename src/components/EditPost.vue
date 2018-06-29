@@ -1,94 +1,56 @@
 <template>
   <div class="relative">
-    <!-- <div v-else-if="authStatus == 'error'" class="message-box warning">Login {{ authStatus }}, user not found</div> -->
-    <div v-if="postAddStatus === 'loading'" class="title"><b>Processing ...</b></div>
-    <div v-if="post">
-      <form v-if="postAddStatus === 'ready'" class="form postForm" @submit.prevent="submit">
-        <h1 class="title">Edit Post</h1>
-        <div class="form-group">
-          <label>Post title</label>
-          <input required v-model="currentPost.title" type="text"
-                 placeholder="input title"/>
-        </div>
-        <div class="form-group">
-          <label>Content</label>
-          <textarea v-model="currentPost.body" placeholder="text"></textarea>
-        </div>
-        <hr/>
-        <div class="submitButtonWrapper">
-          <button type="submit">Save post</button>
-        </div>
-      </form>
-    </div>
-<!--     <div>
-      {{currentPost}}
-    </div> -->
+    <div v-if="postActionStatus === 'loading'" class="title"><b>Processing ...</b></div>
+    
+    <PostForm v-if="postActionStatus === 'ready' && post"
+      title="Edit Post"
+      buttonText="Save Post"
+      v-bind:post="post"
+      v-bind:authUser="authUser"
+      v-on:submit="submit"
+    ></PostForm>
+
   </div>
-  
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import PostForm from './templates/PostForm'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  components: {  PostForm },
   name: 'EditPost',
-  // beforeRouteEnter (to, from, next) {
-  //   (vm) => {
-      
-  //     // console.log(vm)
-  //   } 
-  //   // if (true) {}
-  // },
   props: ['authorId', 'id'],
-  data () {
-    return {
-      currentPost: {
-        id: null,
-        userId: null,
-        title: null,
-        body: null,
-        views: null,
-      },      
-    }
-  },
+  
   computed: {
     ...mapGetters({
-      postAddStatus: 'posts/postAddStatus',
+      postActionStatus: 'posts/postActionStatus',
+      authUser: 'auth/authUser',
+      getPost: 'posts/getPostById'
     }),
+
     post() {
-      let post = this.$store.getters['posts/getPostById'](this.id);
-      if (post) {
-        this.currentPost.id = this.id;
-        this.currentPost.userId = post.userId;
-        this.currentPost.title = post.title;
-        this.currentPost.body = post.body;
-        this.currentPost.views = post.views;
-      }
-      return  post;
+      return  this.getPost(this.id);
     },
   },
 
   methods: {
-    submit: function () {
-      if (this.$store.state.posts.postAddStatus === 'ready') {
-        console.log('ready' )
-        this.$store.dispatch('posts/editPost', { post: this.currentPost }).then(() => {
-          console.log(this.$store.state.posts.postAddStatus)
-        })
-      } else {
-        console.log('not  ready' )
-      }
+    ...mapActions({ editPost: 'posts/editPost', notify: 'globalWarning' }),
 
-        // const {newPost } = this;
-        // console.log(postTitle)
-      
-      // this.newPost
+    submit: function (data) {
+      // console.log('newPost: ', data)
+      // if (this.$store.state.posts.postActionStatus === 'ready') {
+      if (this.postActionStatus === 'ready') {
+        this.editPost({ post: data }).then(() => { console.log('edit promise') })
+      } else {
+        this.notify({
+          message: 'saving Post in progress, please wait',
+          status: 'warning' 
+        })
+      }
     }
-  },
-  // updated() {
-  //   console.log('updated:', this.localPostAddStatus)
-  // }
-  
+  }, 
+
 }
 </script>
 
